@@ -1,9 +1,13 @@
-from django.urls import path
-from . import views
 # todos/urls.py
 # префикс будет в urlах /todos/
+from django.urls import path
+from . import views
+
+
 
 urlpatterns = [
-    path('<int:task_id>/', views.task_by_id, name='task_details'),
-    path('', views.get_all_tasks, name='all_tasks'),
+    path('', views.task_list, name='task_list'),
+    path('task/new/', views.task_create, name='task_create'),
+    path('task/<int:pk>/edit/', views.task_update, name='task_update'),
+    path('task/<int:pk>/delete/', views.task_delete, name='task_delete'),
 ]

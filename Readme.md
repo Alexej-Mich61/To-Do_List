@@ -59,3 +59,29 @@ def task_by_id(request, task_id):
 - регистрируем с помощью include
 - маршруты без префиксов в файле url.py приложения
 - удалил маршруты `tasks/` из файла  urls.py конфигурации проекта
+
+в settings.py изменил часовой пояс `TIME_ZONE = 'Europe/Moscow'`
+
+### создал папку  `templates` в приложении `todos`. в ней нй еще одну папку `todos` для шаблонов
+
+Сделал
+`python manage.py makemigrations` 
+`python manage.py migrate` 
+
+Создал админа:
+`python manage.py createsuperuser`
+в админке создал еще юзера "модератор"
+
+### Первый функционал:
+- В todos/models.py, сделал модель Task
+- В todos/forms.py, создал форму для модели Task
+- В todos/views.py, создал представления для списка, создания, обновления и удаления 
+задач (декораторы)
+- Создал шаблоны для списка задач, формы задачи 
+и подтверждения удаления задачи в todos/templates/todos/:
+task_list.html, task_form.html, task_confirm_delete.html, 
+- В todos/urls.py, определил URL-паттерны для представлений
+- В todo/urls.py, включил URL-паттерны из todos/urls.py:
+Сделал миграцию
+
+

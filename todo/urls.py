@@ -23,7 +23,6 @@ from todos import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.main),
-    path('todos/', include('todos.urls'))
-
+    path('accounts/', include('django.contrib.auth.urls')),  # Включите встроенные представления аутентификации Django
+    path('', include('todos.urls')),
 ]
