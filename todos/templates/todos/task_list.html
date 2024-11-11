@@ -2,14 +2,28 @@
 <html>
 <head>
     <title>Task List</title>
+    <style>
+        .task-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <h1>Task List</h1>
+    <p>Привет, {{ request.user }}!</p>
+    <p>Задач: {{ tasks.count }}</p>
+    <p>Пользователей: {{ users_count }}</p>
     <a href="{% url 'task_create' %}">Create New Task</a>
     <ul>
         {% for task in tasks %}
-            <li>
-                {{ task.title }} - Assigned to: {{ task.assigned_to.username }}
+            <li class="task-container">
+                <h2>{{ task.title }}</h2>
+                <p>{{ task.description }}</p>
+                <p>Assigned to: {{ task.assigned_to.username }}</p>
+                <p>Created at: {{ task.created_at }}</p>
                 <a href="{% url 'task_update' task.id %}">Edit</a>
                 <a href="{% url 'task_delete' task.id %}">Delete</a>
             </li>
