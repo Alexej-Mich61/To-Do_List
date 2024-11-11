@@ -3,8 +3,9 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.db.models import Q
 from .models import Task, Building
-from .forms import TaskForm, BuildingForm
+from .forms import TaskForm, BuildingForm, BuildingSearchForm
 
 @login_required
 def task_list(request):
@@ -111,3 +112,16 @@ def users_list(request):
 @login_required
 def personal_account(request):
     return render(request, 'todos/personal_account.html', {'user': request.user})
+
+@login_required
+def building_search(request):
+    form = BuildingSearchForm(request.GET)
+    buildings = Building.objects.all()
+    if form.is_valid():
+        search = form.cleaned_data.get('search')
+        buildings = buildings.filter(
+            Q(ak__icontains=search) |
+            Q(building_name__icontains=search) |
+            Q(address__icontains=search)
+        )
+    return render(request, 'todos/building_search.html', {'form': form, 'buildings': buildings})

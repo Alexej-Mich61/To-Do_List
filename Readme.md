@@ -94,3 +94,22 @@ task_list.html, task_form.html, task_confirm_delete.html,
 ### Создал шаблоны, добавил модель building
 - добавил базовый шаблон, меню в него и расширил его другими шаблонами
 
+### Установил отношения Task с моделью Building. 
+- `building = models.ForeignKey('Building', on_delete=models.SET_NULL, null=True, blank=True)`
+- на страницах Create Task и Edit Task под полем Description появилась ссылка add building 
+to task, по нажатию на которое открывалось окно с строкой поиска для ввода текста 
+и кнопкой найти. поиск должен производиться в building по всем трем полям 
+(building.ak, building.address, building_name), искать должно даже 
+по части текста, по неполному совпадению. В окне поиска должны 
+выводиться списком building с найденными результатами. Пользователь должен 
+будет выбрать нужный ему building из списка, выделить его нажатием курсора 
+и нажать кнопку добавить. После этого вернуться на предыдущую страницу  
+(Create Task или Edit Task). Привязанный building должен там отображаться 
+под строкой Description. также там должна быть кнопка удаления building из 
+Task.  В Task List привязанный building должен отображаться под полем Description. 
+Отношения между building и task нужно установить таком образом, чтобы при 
+удалении task не удалялся building из базы и Building List, и при удалении 
+building не удалялся task, а только исчезала запись о привязанном building. 
+Привязка building к task должно быть необязательным полем
+
+- выполнить миграцию

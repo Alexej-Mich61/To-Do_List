@@ -7,6 +7,25 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        <div id="building-section">
+            {% if form.instance.building %}
+                <p>Building: {{ form.instance.building.building_name }} ({{ form.instance.building.address }})</p>
+                <button type="button" id="remove-building">Remove Building</button>
+            {% endif %}
+            <a href="{% url 'building_search' %}" id="add-building-link">Add Building to Task</a>
+        </div>
         <button type="submit">Save</button>
     </form>
+
+    <script>
+        document.getElementById('add-building-link').addEventListener('click', function(event) {
+            event.preventDefault();
+            window.open(this.href, 'buildingSearch', 'width=600,height=400');
+        });
+
+        document.getElementById('remove-building').addEventListener('click', function() {
+            document.getElementById('id_building').value = '';
+            document.getElementById('building-section').innerHTML = '<a href="{% url 'building_search' %}" id="add-building-link">Add Building to Task</a>';
+        });
+    </script>
 {% endblock %}

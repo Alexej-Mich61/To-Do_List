@@ -7,6 +7,7 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    building = models.ForeignKey('Building', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.title

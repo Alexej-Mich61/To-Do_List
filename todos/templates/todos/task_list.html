@@ -15,6 +15,9 @@
             <li class="task-container">
                 <h2>{{ task.title }}</h2>
                 <p>{{ task.description }}</p>
+                {% if task.building %}
+                    <p>Building: {{ task.building.building_name }} ({{ task.building.address }})</p>
+                {% endif %}
                 <p>Assigned to: {{ task.assigned_to.username }}</p>
                 <p>Created at: {{ task.created_at }}</p>
                 {% if perms.todos.change_task %}
