@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from .models import Task, Building
 from .forms import TaskForm, BuildingForm
@@ -97,22 +97,9 @@ def register(request):
             return redirect('task_list')
     else:
         form = UserCreationForm()
-    return render(request, 'todos/register.html', {'form': form})
+    return render(request, 'registration/register.html', {'form': form})
 
-def login_view(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('task_list')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'todos/login.html', {'form': form})
-
+@login_required
 def about(request):
     return render(request, 'todos/about.html')
 
@@ -124,4 +111,3 @@ def users_list(request):
 @login_required
 def personal_account(request):
     return render(request, 'todos/personal_account.html', {'user': request.user})
-

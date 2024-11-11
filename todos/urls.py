@@ -14,7 +14,6 @@ urlpatterns = [
     path('buildings/<int:pk>/edit/', views.building_update, name='building_update'),
     path('buildings/<int:pk>/delete/', views.building_delete, name='building_delete'),
     path('register/', views.register, name='register'),
-    path('login/', views.login_view, name='login'),
     path('about/', views.about, name='about'),
     path('users/', views.users_list, name='users_list'),
     path('personal_account/', views.personal_account, name='personal_account'),
