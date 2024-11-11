@@ -1,5 +1,6 @@
 # todos/urls.py
 # префикс будет в urlах /todos/
+
 from django.urls import path
 from . import views
 

@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Building List</title>
-    <style>
-        .building-container {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
+{% extends 'todos/base.html' %}
+
+{% block title %}Building List{% endblock %}
+
+{% block content %}
     <h1>Building List</h1>
     {% if perms.todos.add_building %}
         <a href="{% url 'building_create' %}">Create New Building</a>
@@ -31,5 +22,4 @@
             </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

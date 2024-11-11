@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Confirm Delete</title>
-</head>
-<body>
+{% extends 'todos/base.html' %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
     <h1>Confirm Delete</h1>
     <p>Are you sure you want to delete "{{ task.title }}"?</p>
     <form method="post">
         {% csrf_token %}
         <button type="submit">Confirm</button>
     </form>
-</body>
-</html>
+{% endblock %}
