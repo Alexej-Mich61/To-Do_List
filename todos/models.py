@@ -10,3 +10,11 @@ class Task(models.Model):
 
     def __str__(self):
         return self.title
+
+class Building(models.Model):
+    ak = models.CharField(max_length=100)
+    building_name = models.CharField(max_length=200)
+    address = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.building_name

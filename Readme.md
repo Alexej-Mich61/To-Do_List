@@ -91,3 +91,5 @@ task_list.html, task_form.html, task_confirm_delete.html,
 В todos/views.py, обновил представление task_list, чтобы передать
 количество пользователей в контекст шаблона
 
+### Создал шаблоны, добавил модель building
+
