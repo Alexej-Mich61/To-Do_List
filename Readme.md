@@ -130,3 +130,5 @@ Title,  Description, Building, Assigned to, Created at, Status,
 - выполнил миграцию
 
 #### добавил пагинацию в task list и building list
+
+- добавил ссылки отмены в шаблонах форм
