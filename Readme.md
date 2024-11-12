@@ -128,3 +128,5 @@ Title,  Description, Building, Assigned to, Created at, Status,
 - в тексте комментария добавил предзаполненный текст
 - автоматическую установку даты и времени при создании
 - выполнил миграцию
+
+#### добавил пагинацию в task list и building list

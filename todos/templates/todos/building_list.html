@@ -7,8 +7,35 @@
     {% if perms.todos.add_building %}
         <a href="{% url 'building_create' %}">Create New Building</a>
     {% endif %}
+
+    <!-- Пагинация -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page:
+                {% for page_number in page_obj.paginator.page_range %}
+                    {% if page_obj.number == page_number %}
+                        <strong>{{ page_number }}</strong>
+                    {% else %}
+                        <a href="?page={{ page_number }}">{{ page_number }}</a>
+                    {% endif %}
+                {% endfor %}
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
     <ul>
-        {% for building in buildings %}
+        {% for building in page_obj %}
             <li class="building-container">
                 <h2>{{ building.ak }}. {{ building.building_name }}</h2>
                 <p>Address: {{ building.address }}</p>
@@ -22,4 +49,3 @@
         {% endfor %}
     </ul>
 {% endblock %}
-
