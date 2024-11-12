@@ -1,5 +1,5 @@
 from django import forms
-from .models import Task, Building
+from .models import Task, Building, Commentary
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -13,3 +13,8 @@ class BuildingForm(forms.ModelForm):
 
 class BuildingSearchForm(forms.Form):
     search = forms.CharField(label='Search', max_length=100)
+
+class CommentaryForm(forms.ModelForm):
+    class Meta:
+        model = Commentary
+        fields = ['text']

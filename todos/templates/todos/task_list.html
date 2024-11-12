@@ -27,8 +27,23 @@
                 {% if perms.todos.delete_task %}
                     <a href="{% url 'task_delete' task.id %}">Delete</a>
                 {% endif %}
+                <a href="{% url 'commentary_create' task.id %}">Add Comment</a>
+                <div class="comment-container">
+                    {% for commentary in task.commentaries.all %}
+                        <div class="comment">
+                            <p>User: {{ commentary.user.username }}</p>
+                            <p>Comment: {{ commentary.text }}</p>
+                            <p>Created at: {{ commentary.created_at }}</p>
+                            {% if perms.todos.change_commentary %}
+                                <a href="{% url 'commentary_update' commentary.id %}">Edit</a>
+                            {% endif %}
+                            {% if perms.todos.delete_commentary %}
+                                <a href="{% url 'commentary_delete' commentary.id %}">Delete</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
             </li>
         {% endfor %}
     </ul>
 {% endblock %}
-

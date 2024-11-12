@@ -4,9 +4,6 @@
 from django.urls import path
 from . import views
 
-from django.urls import path
-from . import views
-
 urlpatterns = [
     path('', views.task_list, name='task_list'),
     path('task/new/', views.task_create, name='task_create'),
@@ -21,4 +18,7 @@ urlpatterns = [
     path('users/', views.users_list, name='users_list'),
     path('personal_account/', views.personal_account, name='personal_account'),
     path('building_search/', views.building_search, name='building_search'),
+    path('task/<int:task_id>/commentary/new/', views.commentary_create, name='commentary_create'),
+    path('commentary/<int:pk>/edit/', views.commentary_update, name='commentary_update'),
+    path('commentary/<int:pk>/delete/', views.commentary_delete, name='commentary_delete'),
 ]
