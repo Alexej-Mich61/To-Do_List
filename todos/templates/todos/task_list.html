@@ -13,13 +13,14 @@
     <ul>
         {% for task in tasks %}
             <li class="task-container">
-                <h2>{{ task.title }}</h2>
-                <p>{{ task.description }}</p>
+                <p>Title: {{ task.title }}</p>
+                <p>Description: {{ task.description }}</p>
                 {% if task.building %}
-                    <p>Building: {{ task.building.building_name }} ({{ task.building.address }})</p>
+                    <p>Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</p>
                 {% endif %}
                 <p>Assigned to: {{ task.assigned_to.username }}</p>
                 <p>Created at: {{ task.created_at }}</p>
+                <p>Status: {{ task.status }}</p>
                 {% if perms.todos.change_task %}
                     <a href="{% url 'task_update' task.id %}">Edit</a>
                 {% endif %}

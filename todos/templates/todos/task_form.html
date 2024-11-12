@@ -9,7 +9,7 @@
         {{ form.as_p }}
         <div id="building-section">
             {% if form.instance.building %}
-                <p>Building: {{ form.instance.building.building_name }} ({{ form.instance.building.address }})</p>
+                <p>Building: {{ form.instance.building.ak }}. {{ form.instance.building.building_name }} ({{ form.instance.building.address }})</p>
                 <button type="button" id="remove-building">Remove Building</button>
             {% endif %}
             <a href="{% url 'building_search' %}" id="add-building-link">Add Building to Task</a>
@@ -29,4 +29,5 @@
         });
     </script>
 {% endblock %}
+
 

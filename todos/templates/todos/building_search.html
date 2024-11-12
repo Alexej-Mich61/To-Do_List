@@ -32,8 +32,8 @@
     </form>
     <ul class="search-results">
         {% for building in buildings %}
-            <li data-id="{{ building.id }}" data-name="{{ building.building_name }}" data-address="{{ building.address }}">
-                {{ building.building_name }} ({{ building.address }})
+            <li data-id="{{ building.id }}" data-name="{{ building.building_name }}" data-address="{{ building.address }}" data-ak="{{ building.ak }}">
+                {{ building.ak }}. {{ building.building_name }} ({{ building.address }})
             </li>
         {% endfor %}
     </ul>
@@ -44,9 +44,10 @@
                 const buildingId = this.getAttribute('data-id');
                 const buildingName = this.getAttribute('data-name');
                 const buildingAddress = this.getAttribute('data-address');
+                const buildingAk = this.getAttribute('data-ak');
                 window.opener.document.getElementById('id_building').value = buildingId;
                 window.opener.document.getElementById('building-section').innerHTML = `
-                    <p>Building: ${buildingName} (${buildingAddress})</p>
+                    <p>Building: ${buildingAk}. ${buildingName} (${buildingAddress})</p>
                     <button type="button" id="remove-building">Remove Building</button>
                     <a href="{% url 'building_search' %}" id="add-building-link">Add Building to Task</a>
                 `;

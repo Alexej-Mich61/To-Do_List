@@ -10,8 +10,7 @@
     <ul>
         {% for building in buildings %}
             <li class="building-container">
-                <h2>{{ building.building_name }}</h2>
-                <p>AK: {{ building.ak }}</p>
+                <h2>{{ building.ak }}. {{ building.building_name }}</h2>
                 <p>Address: {{ building.address }}</p>
                 {% if perms.todos.change_building %}
                     <a href="{% url 'building_update' building.id %}">Edit</a>
@@ -23,3 +22,4 @@
         {% endfor %}
     </ul>
 {% endblock %}
+
