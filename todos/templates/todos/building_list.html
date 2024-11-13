@@ -4,46 +4,20 @@
 
 {% block content %}
     <h1>Building List</h1>
+    <p>Buildings: {{ buildings.count }}</p>
     {% if perms.todos.add_building %}
-        <a href="{% url 'building_create' %}">Create New Building</a>
+        <a href="{% url 'building_create' %}" class="btn btn-primary mb-3">Create New Building</a>
     {% endif %}
-
-    <!-- Пагинация -->
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page:
-                {% for page_number in page_obj.paginator.page_range %}
-                    {% if page_obj.number == page_number %}
-                        <strong>{{ page_number }}</strong>
-                    {% else %}
-                        <a href="?page={{ page_number }}">{{ page_number }}</a>
-                    {% endif %}
-                {% endfor %}
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-
-    <ul>
-        {% for building in page_obj %}
-            <li class="building-container">
+    <ul class="list-group">
+        {% for building in buildings %}
+            <li class="list-group-item">
                 <h2>{{ building.ak }}. {{ building.building_name }}</h2>
                 <p>Address: {{ building.address }}</p>
                 {% if perms.todos.change_building %}
-                    <a href="{% url 'building_update' building.id %}">Edit</a>
+                    <a href="{% url 'building_update' building.id %}" class="btn btn-warning btn-sm">Edit</a>
                 {% endif %}
                 {% if perms.todos.delete_building %}
-                    <a href="{% url 'building_delete' building.id %}">Delete</a>
+                    <a href="{% url 'building_delete' building.id %}" class="btn btn-danger btn-sm">Delete</a>
                 {% endif %}
             </li>
         {% endfor %}

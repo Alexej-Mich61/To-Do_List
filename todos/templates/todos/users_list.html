@@ -4,9 +4,9 @@
 
 {% block content %}
     <h1>Users List</h1>
-    <ul>
+    <ul class="list-group">
         {% for user in users %}
-            <li>{{ user.username }}</li>
+            <li class="list-group-item">{{ user.username }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

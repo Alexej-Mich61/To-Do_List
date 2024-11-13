@@ -5,41 +5,14 @@
 {% block content %}
     <h1>Task List</h1>
     <p>Привет, {{ request.user }}!</p>
-    <p>Задач: {{ page_obj.paginator.count }}</p>
+    <p>Задач: {{ tasks.count }}</p>
     <p>Пользователей: {{ users_count }}</p>
     {% if perms.todos.add_task %}
-        <a href="{% url 'task_create' %}">Create New Task</a>
+        <a href="{% url 'task_create' %}" class="btn btn-primary mb-3">Create New Task</a>
     {% endif %}
-
-    <!-- Пагинация -->
-    <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
-
-            <span class="current">
-                Page:
-                {% for page_number in page_obj.paginator.page_range %}
-                    {% if page_obj.number == page_number %}
-                        <strong>{{ page_number }}</strong>
-                    {% else %}
-                        <a href="?page={{ page_number }}">{{ page_number }}</a>
-                    {% endif %}
-                {% endfor %}
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
-        </span>
-    </div>
-
-    <ul>
-        {% for task in page_obj %}
-            <li class="task-container">
+    <ul class="list-group">
+        {% for task in tasks %}
+            <li class="list-group-item">
                 <p>Title: {{ task.title }}</p>
                 <p>Description: {{ task.description }}</p>
                 {% if task.building %}
@@ -47,30 +20,18 @@
                 {% endif %}
                 <p>Assigned to: {{ task.assigned_to.username }}</p>
                 <p>Created at: {{ task.created_at }}</p>
-                <p>Status: {{ task.status }}</p>
+                <p>Status: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
                 {% if perms.todos.change_task %}
-                    <a href="{% url 'task_update' task.id %}">Edit</a>
+                    <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm">Edit</a>
                 {% endif %}
                 {% if perms.todos.delete_task %}
-                    <a href="{% url 'task_delete' task.id %}">Delete</a>
+                    <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
                 {% endif %}
-                <a href="{% url 'commentary_create' task.id %}">Add Comment</a>
-                <div class="comment-container">
-                    {% for commentary in task.commentaries.all %}
-                        <div class="comment">
-                            <p>User: {{ commentary.user.username }}</p>
-                            <p>Comment: {{ commentary.text }}</p>
-                            <p>Created at: {{ commentary.created_at }}</p>
-                            {% if perms.todos.change_commentary %}
-                                <a href="{% url 'commentary_update' commentary.id %}">Edit</a>
-                            {% endif %}
-                            {% if perms.todos.delete_commentary %}
-                                <a href="{% url 'commentary_delete' commentary.id %}">Delete</a>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                </div>
             </li>
         {% endfor %}
     </ul>
 {% endblock %}
+
+
+
+

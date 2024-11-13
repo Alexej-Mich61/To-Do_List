@@ -26,3 +26,4 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),  # Включите встроенные представления аутентификации Django
     path('', include('todos.urls')),
 ]
+

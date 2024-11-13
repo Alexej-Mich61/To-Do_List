@@ -6,8 +6,19 @@
     <h1>{% if form.instance.pk %}Edit Building{% else %}Create Building{% endif %}</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-        <a href="{% url 'building_list' %}">Cancel</a>
+        <div class="form-group">
+            <label for="id_ak">AK</label>
+            {{ form.ak }}
+        </div>
+        <div class="form-group">
+            <label for="id_building_name">Building Name</label>
+            {{ form.building_name }}
+        </div>
+        <div class="form-group">
+            <label for="id_address">Address</label>
+            {{ form.address }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'building_list' %}" class="btn btn-secondary">Cancel</a>
     </form>
 {% endblock %}

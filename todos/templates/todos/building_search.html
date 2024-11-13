@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Building Search</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,7 +30,7 @@
     <form method="get" class="search-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Search</button>
+        <button type="submit" class="btn btn-secondary">Search</button>
     </form>
     <ul class="search-results">
         {% for building in buildings %}
@@ -48,8 +50,8 @@
                 window.opener.document.getElementById('id_building').value = buildingId;
                 window.opener.document.getElementById('building-section').innerHTML = `
                     <p>Building: ${buildingAk}. ${buildingName} (${buildingAddress})</p>
-                    <button type="button" id="remove-building">Remove Building</button>
-                    <a href="{% url 'building_search' %}" id="add-building-link">Add Building to Task</a>
+                    <button type="button" id="remove-building" class="btn btn-danger btn-sm">Remove Building</button>
+                    <a href="{% url 'building_search' %}" id="add-building-link" class="btn btn-primary btn-sm">Add Building to Task</a>
                 `;
                 window.close();
             });
@@ -57,5 +59,3 @@
     </script>
 </body>
 </html>
-
-
