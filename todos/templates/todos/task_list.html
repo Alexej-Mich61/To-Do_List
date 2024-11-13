@@ -12,7 +12,7 @@
     {% endif %}
     <ul class="list-group">
         {% for task in tasks %}
-            <li class="list-group-item">
+            <li class="list-group-item task-container">
                 <p>Title: {{ task.title }}</p>
                 <p>Description: {{ task.description }}</p>
                 {% if task.building %}
@@ -27,6 +27,22 @@
                 {% if perms.todos.delete_task %}
                     <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
                 {% endif %}
+                <a href="{% url 'commentary_create' task.id %}" class="btn btn-primary btn-sm">Add Commentary</a>
+                <div class="commentary-container mt-3">
+                    {% for commentary in task.commentaries.all %}
+                        <div class="commentary-item">
+                            <p>User: {{ commentary.user.username }}</p>
+                            <p>Text: {{ commentary.text }}</p>
+                            <p>Created at: {{ commentary.created_at }}</p>
+                            {% if perms.todos.change_commentary %}
+                                <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            {% endif %}
+                            {% if perms.todos.delete_commentary %}
+                                <a href="{% url 'commentary_delete' commentary.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
             </li>
         {% endfor %}
     </ul>

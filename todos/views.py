@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.db.models import Q
-from .models import Task, Building
-from .forms import TaskForm, BuildingForm, BuildingSearchForm
+from .models import Task, Building, Commentary
+from .forms import TaskForm, BuildingForm, BuildingSearchForm, CommentaryForm
 
 @login_required
 def task_list(request):
@@ -125,3 +125,40 @@ def building_search(request):
             Q(address__icontains=search)
         )
     return render(request, 'todos/building_search.html', {'form': form, 'buildings': buildings})
+
+@login_required
+def commentary_create(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    if request.method == 'POST':
+        form = CommentaryForm(request.POST)
+        if form.is_valid():
+            commentary = form.save(commit=False)
+            commentary.task = task
+            commentary.user = request.user
+            commentary.save()
+            return redirect('task_list')
+    else:
+        form = CommentaryForm()
+    return render(request, 'todos/commentary_form.html', {'form': form, 'task': task})
+
+@login_required
+@permission_required('todos.change_commentary', raise_exception=True)
+def commentary_update(request, pk):
+    commentary = get_object_or_404(Commentary, pk=pk)
+    if request.method == 'POST':
+        form = CommentaryForm(request.POST, instance=commentary)
+        if form.is_valid():
+            form.save()
+            return redirect('task_list')
+    else:
+        form = CommentaryForm(instance=commentary)
+    return render(request, 'todos/commentary_form.html', {'form': form, 'commentary': commentary})
+
+@login_required
+@permission_required('todos.delete_commentary', raise_exception=True)
+def commentary_delete(request, pk):
+    commentary = get_object_or_404(Commentary, pk=pk)
+    if request.method == 'POST':
+        commentary.delete()
+        return redirect('task_list')
+    return render(request, 'todos/commentary_confirm_delete.html', {'commentary': commentary})

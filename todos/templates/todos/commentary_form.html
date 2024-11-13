@@ -1,0 +1,16 @@
+{% extends 'todos/base.html' %}
+
+{% block title %}{% if commentary %}Edit Commentary{% else %}Add Commentary{% endif %}{% endblock %}
+
+{% block content %}
+    <h1>{% if commentary %}Edit Commentary{% else %}Add Commentary{% endif %}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_text">Text</label>
+            {{ form.text }}
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+{% endblock %}
