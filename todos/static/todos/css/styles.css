@@ -1,0 +1,59 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+}
+
+.header a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+.footer {
+    background-color: #f8f9fa;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.content {
+    padding: 20px;
+}
+
+.navbar-toggler-icon {
+    font-size: 2rem;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+}
+
+h1 {
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+.btn {
+    margin: 5px;
+    font-size: 1.2rem;
+}
+
+.task-container {
+    margin-left: 20px;
+}
+
+.commentary-container {
+    margin-left: 40px;
+}
