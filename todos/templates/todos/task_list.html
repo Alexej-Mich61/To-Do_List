@@ -8,11 +8,15 @@
         <p class="mb-0">Привет, {{ request.user }}! Задач: {{ page_obj.paginator.count }} Пользователей: {{ users_count }}</p>
     </div>
 
-    <!-- Поиск по заголовкам задач -->
+    <!-- Поиск по заголовкам задач и пользователю -->
     <form method="get" class="form-inline justify-content-center mb-3">
         <div class="form-group mx-sm-3 mb-2">
-            <label for="search" class="sr-only">Search</label>
+            <label for="search" class="sr-only">Search by Title</label>
             <input type="text" class="form-control" id="search" name="search" placeholder="Search by Title">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="assigned_to" class="sr-only">Search by Assigned User</label>
+            <input type="text" class="form-control" id="assigned_to" name="assigned_to" placeholder="Search by Assigned User">
         </div>
         <button type="submit" class="btn btn-primary mb-2">Search</button>
     </form>
@@ -27,32 +31,32 @@
     <ul class="list-group">
         {% for task in page_obj %}
             <li class="list-group-item task-container">
-                <h2>Title: {{ task.title }}</h2>
-                <p>Description: {{ task.description }}</p>
+                <h2 class="mb-1">Title: {{ task.title }}</h2>
+                <p class="mb-1">Description: {{ task.description }}</p>
                 {% if task.building %}
-                    <h2>Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
+                    <h2 class="mb-1">Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
                 {% endif %}
-                <h2>Assigned to: {{ task.assigned_to.username }}</h2>
-                <p>Created at: {{ task.created_at }}</p>
-                <p>Status: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
+                <h2 class="mb-1">Assigned to: {{ task.assigned_to.username }}</h2>
+                <p class="mb-1">Created at: {{ task.created_at }}</p>
+                <p class="mb-1">Status: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
                 {% if perms.todos.change_task %}
-                    <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm mb-1">Edit</a>
                 {% endif %}
                 {% if perms.todos.delete_task %}
-                    <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm mb-1">Delete</a>
                 {% endif %}
-                <a href="{% url 'commentary_create' task.id %}" class="btn btn-primary btn-sm">Add Commentary</a>
+                <a href="{% url 'commentary_create' task.id %}" class="btn btn-primary btn-sm mb-1">Add Commentary</a>
                 <div class="commentary-container mt-3">
                     {% for commentary in task.commentaries.all %}
                         <div class="commentary-item">
-                            <p>User: {{ commentary.user.username }}</p>
-                            <p>Text: {{ commentary.text }}</p>
-                            <p>Created at: {{ commentary.created_at }}</p>
+                            <p class="mb-1">User: {{ commentary.user.username }}</p>
+                            <h3 class="mb-1">Text: {{ commentary.text }}</h3>
+                            <p class="mb-1">Created at: {{ commentary.created_at }}</p>
                             {% if perms.todos.change_commentary %}
-                                <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm mb-1">Edit</a>
                             {% endif %}
                             {% if perms.todos.delete_commentary %}
-                                <a href="{% url 'commentary_delete' commentary.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                <a href="{% url 'commentary_delete' commentary.id %}" class="btn btn-danger btn-sm mb-1">Delete</a>
                             {% endif %}
                         </div>
                     {% endfor %}
@@ -96,7 +100,4 @@
         </ul>
     </nav>
 {% endblock %}
-
-
-
 

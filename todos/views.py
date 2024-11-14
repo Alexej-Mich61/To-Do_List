@@ -11,10 +11,14 @@ from .forms import TaskForm, BuildingForm, BuildingSearchForm, CommentaryForm
 @login_required
 def task_list(request):
     search_query = request.GET.get('search')
+    assigned_to_query = request.GET.get('assigned_to')
     tasks = Task.objects.all().order_by('-created_at')  # Сортировка от новой к старой
 
     if search_query:
         tasks = tasks.filter(title__icontains=search_query)
+
+    if assigned_to_query:
+        tasks = tasks.filter(assigned_to__username__icontains=assigned_to_query)
 
     users_count = User.objects.count()
 
