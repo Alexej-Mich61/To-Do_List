@@ -10,7 +10,12 @@ from .forms import TaskForm, BuildingForm, BuildingSearchForm, CommentaryForm
 
 @login_required
 def task_list(request):
-    tasks = Task.objects.all()
+    search_query = request.GET.get('search')
+    tasks = Task.objects.all().order_by('-created_at')  # Сортировка от новой к старой
+
+    if search_query:
+        tasks = tasks.filter(title__icontains=search_query)
+
     users_count = User.objects.count()
 
     # Пагинация
@@ -20,6 +25,7 @@ def task_list(request):
 
     return render(request, 'todos/task_list.html', {'page_obj': page_obj, 'users_count': users_count})
 
+# Остальные представления остаются без изменений
 @login_required
 @permission_required('todos.add_task', raise_exception=True)
 def task_create(request):
