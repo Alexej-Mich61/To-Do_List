@@ -1,0 +1,102 @@
+{% extends 'todos/base.html' %}
+
+{% block title %}Completed Task List{% endblock %}
+
+{% block content %}
+    <h1>Completed Task List</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p class="mb-0">Привет, {{ request.user }}! Задач: {{ page_obj.paginator.count }} Пользователей: {{ users_count }}</p>
+    </div>
+
+    <!-- Поиск по заголовкам задач и пользователю -->
+    <form method="get" class="form-inline justify-content-center mb-3">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="search" class="sr-only">Search by Title</label>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Search by Title">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="assigned_to" class="sr-only">Search by Assigned User</label>
+            <input type="text" class="form-control" id="assigned_to" name="assigned_to" placeholder="Search by Assigned User">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Search</button>
+    </form>
+
+    <!-- Кнопка создания новой задачи -->
+    {% if perms.todos.add_task %}
+        <div class="text-center mb-3">
+            <a href="{% url 'task_create' %}" class="btn btn-primary">Create New Task</a>
+        </div>
+    {% endif %}
+
+    <ul class="list-group">
+        {% for task in page_obj %}
+            <li class="list-group-item task-container">
+                <h2 class="mb-1">Title: {{ task.title }}</h2>
+                <p class="mb-1">Description: {{ task.description }}</p>
+                {% if task.building %}
+                    <h2 class="mb-1">Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
+                {% endif %}
+                <h2 class="mb-1">Assigned to: {{ task.assigned_to.username }}</h2>
+                <p class="mb-1">Created at: {{ task.created_at }}</p>
+                <p class="mb-1">Status: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
+                {% if perms.todos.change_task %}
+                    <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm mb-1">Edit</a>
+                {% endif %}
+                {% if perms.todos.delete_task %}
+                    <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm mb-1">Delete</a>
+                {% endif %}
+                <a href="{% url 'commentary_create' task.id %}" class="btn btn-primary btn-sm mb-1">Add Commentary</a>
+                <div class="commentary-container mt-3">
+                    {% for commentary in task.commentaries.all %}
+                        <div class="commentary-item">
+                            <p class="mb-1">User: {{ commentary.user.username }}</p>
+                            <h3 class="mb-1">Text: {{ commentary.text }}</h3>
+                            <p class="mb-1">Created at: {{ commentary.created_at }}</p>
+                            {% if perms.todos.change_commentary %}
+                                <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm mb-1">Edit</a>
+                            {% endif %}
+                            {% if perms.todos.delete_commentary %}
+                                <a href="{% url 'commentary_delete' commentary.id %}" class="btn btn-danger btn-sm mb-1">Delete</a>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Пагинация -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+            {% endif %}
+            {% for page_number in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_number == page_obj.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}

@@ -29,6 +29,54 @@ def task_list(request):
 
     return render(request, 'todos/task_list.html', {'page_obj': page_obj, 'users_count': users_count})
 
+@login_required
+def task_list_active(request):
+    search_query = request.GET.get('search')
+    assigned_to_query = request.GET.get('assigned_to')
+    tasks = Task.objects.filter(status='active').order_by('-created_at')  # Сортировка от новой к старой
+
+    if search_query:
+        tasks = tasks.filter(title__icontains=search_query)
+
+    if assigned_to_query:
+        tasks = tasks.filter(assigned_to__username__icontains=assigned_to_query)
+
+    users_count = User.objects.count()
+
+    # Пагинация
+    paginator = Paginator(tasks, 5)  # Показывать по 5 задач на страницу
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'todos/task_list_active.html', {'page_obj': page_obj, 'users_count': users_count})
+
+@login_required
+def task_list_completed(request):
+    search_query = request.GET.get('search')
+    assigned_to_query = request.GET.get('assigned_to')
+    tasks = Task.objects.filter(status='completed').order_by('-created_at')  # Сортировка от новой к старой
+
+    if search_query:
+        tasks = tasks.filter(title__icontains=search_query)
+
+    if assigned_to_query:
+        tasks = tasks.filter(assigned_to__username__icontains=assigned_to_query)
+
+    users_count = User.objects.count()
+
+    # Пагинация
+    paginator = Paginator(tasks, 5)  # Показывать по 5 задач на страницу
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'todos/task_list_completed.html', {'page_obj': page_obj, 'users_count': users_count})
+
+@login_required
+def users_list(request):
+    users = User.objects.all()
+    users_count = users.count()
+    return render(request, 'todos/users_list.html', {'users': users, 'users_count': users_count})
+
 # Остальные представления остаются без изменений
 @login_required
 @permission_required('todos.add_task', raise_exception=True)

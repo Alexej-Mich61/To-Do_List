@@ -21,4 +21,7 @@ urlpatterns = [
     path('task/<int:task_id>/commentary/new/', views.commentary_create, name='commentary_create'),
     path('commentary/<int:pk>/edit/', views.commentary_update, name='commentary_update'),
     path('commentary/<int:pk>/delete/', views.commentary_delete, name='commentary_delete'),
+    path('task_list_active/', views.task_list_active, name='task_list_active'),
+    path('task_list_completed/', views.task_list_completed, name='task_list_completed'),
 ]
+

@@ -3,10 +3,22 @@
 {% block title %}Users List{% endblock %}
 
 {% block content %}
-    <h1>Users List</h1>
-    <ul class="list-group">
-        {% for user in users %}
-            <li class="list-group-item">{{ user.username }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="text-center">Users List</h1>
+                <h3 class="text-center">Пользователей: {{ users_count }}</h3>
+                <ul class="list-group">
+                    {% for user in users %}
+                        <li class="list-group-item">
+                            <h3>Username: {{ user.username }}</h3>
+                            <h3>Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></h3>
+                            <h3>First Name: {{ user.first_name }}</h3>
+                            <h3>Last Name: {{ user.last_name }}</h3>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
