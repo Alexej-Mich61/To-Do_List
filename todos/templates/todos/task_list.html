@@ -5,20 +5,20 @@
 {% block content %}
     <h1>Task List</h1>
     <p>Привет, {{ request.user }}!</p>
-    <p>Задач: {{ tasks.count }}</p>
+    <p>Задач: {{ page_obj.paginator.count }}</p>
     <p>Пользователей: {{ users_count }}</p>
     {% if perms.todos.add_task %}
         <a href="{% url 'task_create' %}" class="btn btn-primary mb-3">Create New Task</a>
     {% endif %}
     <ul class="list-group">
-        {% for task in tasks %}
+        {% for task in page_obj %}
             <li class="list-group-item task-container">
-                <p>Title: {{ task.title }}</p>
+                <h2>Title: {{ task.title }}</h2>
                 <p>Description: {{ task.description }}</p>
                 {% if task.building %}
-                    <p>Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</p>
+                    <h2>Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
                 {% endif %}
-                <p>Assigned to: {{ task.assigned_to.username }}</p>
+                <h2>Assigned to: {{ task.assigned_to.username }}</h2>
                 <p>Created at: {{ task.created_at }}</p>
                 <p>Status: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
                 {% if perms.todos.change_task %}
@@ -46,7 +46,43 @@
             </li>
         {% endfor %}
     </ul>
+
+    <!-- Пагинация -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+            {% endif %}
+            {% for page_number in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_number == page_obj.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
+
 
 
 
