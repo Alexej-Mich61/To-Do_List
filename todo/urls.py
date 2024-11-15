@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from todos import views
+# from todos import views
 
 
 # Подключаем файл urls.py из приложения todos через include
@@ -24,6 +24,6 @@ from todos import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),  # Включите встроенные представления аутентификации Django
-    path('', include('todos.urls')),
+    path('', include('todos.urls')), # Включаем URL для приложения todos
 ]
 

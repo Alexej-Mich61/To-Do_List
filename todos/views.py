@@ -1,13 +1,39 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from django.db.models import Q
 from django.core.paginator import Paginator
-from .models import Task, Building, Commentary
-from .forms import TaskForm, BuildingForm, BuildingSearchForm, CommentaryForm
+from .models import Task, Building, Commentary, CustomUser
+from .forms import TaskForm, BuildingForm, BuildingSearchForm, CommentaryForm, CustomUserCreationForm
 
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = False  # Пользователь неактивен до подтверждения
+            user.save()
+            return redirect('login')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
+
+@login_required
+@permission_required('todos.change_customuser', raise_exception=True)
+def approve_user(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    user.is_approved = True
+    user.is_active = True  # Активируем пользователя
+    user.save()
+    return redirect('users_list')
+
+@login_required
+def users_list(request):
+    users = CustomUser.objects.all()
+    users_count = users.count()
+    return render(request, 'todos/users_list.html', {'users': users, 'users_count': users_count})
+
+# для страниц
 @login_required
 def task_list(request):
     search_query = request.GET.get('search')
@@ -20,7 +46,7 @@ def task_list(request):
     if assigned_to_query:
         tasks = tasks.filter(assigned_to__username__icontains=assigned_to_query)
 
-    users_count = User.objects.count()
+    users_count = CustomUser.objects.count()
 
     # Пагинация
     paginator = Paginator(tasks, 5)  # Показывать по 5 задач на страницу
@@ -41,7 +67,7 @@ def task_list_active(request):
     if assigned_to_query:
         tasks = tasks.filter(assigned_to__username__icontains=assigned_to_query)
 
-    users_count = User.objects.count()
+    users_count = CustomUser.objects.count()
 
     # Пагинация
     paginator = Paginator(tasks, 5)  # Показывать по 5 задач на страницу
@@ -62,7 +88,7 @@ def task_list_completed(request):
     if assigned_to_query:
         tasks = tasks.filter(assigned_to__username__icontains=assigned_to_query)
 
-    users_count = User.objects.count()
+    users_count = CustomUser.objects.count()
 
     # Пагинация
     paginator = Paginator(tasks, 5)  # Показывать по 5 задач на страницу
@@ -71,13 +97,6 @@ def task_list_completed(request):
 
     return render(request, 'todos/task_list_completed.html', {'page_obj': page_obj, 'users_count': users_count})
 
-@login_required
-def users_list(request):
-    users = User.objects.all()
-    users_count = users.count()
-    return render(request, 'todos/users_list.html', {'users': users, 'users_count': users_count})
-
-# Остальные представления остаются без изменений
 @login_required
 @permission_required('todos.add_task', raise_exception=True)
 def task_create(request):
@@ -157,28 +176,9 @@ def building_delete(request, pk):
         return redirect('building_list')
     return render(request, 'todos/building_confirm_delete.html', {'building': building})
 
-def register(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('task_list')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
-
 @login_required
 def about(request):
     return render(request, 'todos/about.html')
-
-@login_required
-def users_list(request):
-    users = User.objects.all()
-    return render(request, 'todos/users_list.html', {'users': users})
 
 @login_required
 def personal_account(request):

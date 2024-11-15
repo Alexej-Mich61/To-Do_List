@@ -1,5 +1,8 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.models import User
+
+class CustomUser(AbstractUser):
+    is_approved = models.BooleanField(default=False)
 
 class Building(models.Model):
     ak = models.CharField(max_length=100)
@@ -19,7 +22,7 @@ class Task(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    assigned_to = models.ForeignKey('todos.CustomUser', on_delete=models.CASCADE, null=True, blank=True)
     building = models.ForeignKey('Building', on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
 
@@ -28,7 +31,7 @@ class Task(models.Model):
 
 class Commentary(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='commentaries')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('todos.CustomUser', on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 

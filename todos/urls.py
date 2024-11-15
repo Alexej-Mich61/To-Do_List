@@ -23,5 +23,6 @@ urlpatterns = [
     path('commentary/<int:pk>/delete/', views.commentary_delete, name='commentary_delete'),
     path('task_list_active/', views.task_list_active, name='task_list_active'),
     path('task_list_completed/', views.task_list_completed, name='task_list_completed'),
+    path('approve_user/<int:user_id>/', views.approve_user, name='approve_user'),
 ]
 

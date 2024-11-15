@@ -15,6 +15,11 @@
                             <h3>Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></h3>
                             <h3>First Name: {{ user.first_name }}</h3>
                             <h3>Last Name: {{ user.last_name }}</h3>
+                            {% if not user.is_approved %}
+                                <a href="{% url 'approve_user' user.id %}" class="btn btn-success">Approve</a>
+                            {% else %}
+                                <span class="badge badge-success">Approved</span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ul>
