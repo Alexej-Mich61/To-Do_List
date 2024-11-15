@@ -1,12 +1,13 @@
+<!--todos/templates/todos/building_confirm_delete.html-->
 {% extends 'todos/base.html' %}
 
-{% block title %}Confirm Delete{% endblock %}
+{% block title %}Подтвердите удаление{% endblock %}
 
 {% block content %}
     <h1>Confirm Delete</h1>
-    <p>Are you sure you want to delete "{{ building.building_name }}"?</p>
+    <p>Вы уверены, что хотите удалить "{{ building.building_name }}"?</p>
     <form method="post">
         {% csrf_token %}
-        <button type="submit" class="btn btn-danger">Confirm</button>
+        <button type="submit" class="btn btn-danger">Подтвердить</button>
     </form>
 {% endblock %}

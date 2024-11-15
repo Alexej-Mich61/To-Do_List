@@ -182,3 +182,4 @@ todos/
 
 ### восстановление пароля по почте
 ### pip install django-debug-toolbar
+### Правка текста

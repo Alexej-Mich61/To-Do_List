@@ -1,6 +1,7 @@
+<!--todos/templates/todos/task_list_completed.html-->
 {% extends 'todos/base.html' %}
 
-{% block title %}Completed Task List{% endblock %}
+{% block title %}Выполненные задачи{% endblock %}
 
 {% block content %}
     <h1>Completed Task List</h1>
@@ -11,52 +12,52 @@
     <!-- Поиск по заголовкам задач и пользователю -->
     <form method="get" class="form-inline justify-content-center mb-3">
         <div class="form-group mx-sm-3 mb-2">
-            <label for="search" class="sr-only">Search by Title</label>
-            <input type="text" class="form-control" id="search" name="search" placeholder="Search by Title">
+            <label for="search" class="sr-only">Найти задачу</label>
+            <input type="text" class="form-control" id="search" name="search" placeholder="Найти задачу">
         </div>
         <div class="form-group mx-sm-3 mb-2">
-            <label for="assigned_to" class="sr-only">Search by Assigned User</label>
-            <input type="text" class="form-control" id="assigned_to" name="assigned_to" placeholder="Search by Assigned User">
+            <label for="assigned_to" class="sr-only">Кому назначена</label>
+            <input type="text" class="form-control" id="assigned_to" name="assigned_to" placeholder="Кому назначена">
         </div>
-        <button type="submit" class="btn btn-primary mb-2">Search</button>
+        <button type="submit" class="btn btn-primary mb-2">Поиск</button>
     </form>
 
-    <!-- Кнопка создания новой задачи -->
+    <!-- Кнопка создания новой задачи
     {% if perms.todos.add_task %}
         <div class="text-center mb-3">
             <a href="{% url 'task_create' %}" class="btn btn-primary">Create New Task</a>
         </div>
-    {% endif %}
+    {% endif %}-->
 
     <ul class="list-group">
         {% for task in page_obj %}
             <li class="list-group-item task-container">
-                <h2 class="mb-1">Title: {{ task.title }}</h2>
-                <p class="mb-1">Description: {{ task.description }}</p>
+                <h2 class="mb-1">Заголовок: {{ task.title }}</h2>
+                <p class="mb-1">Описание: {{ task.description }}</p>
                 {% if task.building %}
-                    <h2 class="mb-1">Building: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
+                    <h2 class="mb-1">Объект: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
                 {% endif %}
-                <h2 class="mb-1">Assigned to: {{ task.assigned_to.username }}</h2>
-                <p class="mb-1">Created at: {{ task.created_at }}</p>
-                <p class="mb-1">Status: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
+                <h2 class="mb-1">Кому: {{ task.assigned_to.username }}</h2>
+                <p class="mb-1">Добавлена: {{ task.created_at }}</p>
+                <p class="mb-1">Статус: <span class="badge {% if task.status == 'active' %}badge-success{% else %}badge-warning{% endif %}">{{ task.status }}</span></p>
                 {% if perms.todos.change_task %}
-                    <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm mb-1">Edit</a>
+                    <a href="{% url 'task_update' task.id %}" class="btn btn-warning btn-sm mb-1">Редактировать</a>
                 {% endif %}
                 {% if perms.todos.delete_task %}
-                    <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm mb-1">Delete</a>
+                    <a href="{% url 'task_delete' task.id %}" class="btn btn-danger btn-sm mb-1">Удалить</a>
                 {% endif %}
-                <a href="{% url 'commentary_create' task.id %}" class="btn btn-primary btn-sm mb-1">Add Commentary</a>
+                <a href="{% url 'commentary_create' task.id %}" class="btn btn-primary btn-sm mb-1">Добавить комментарий</a>
                 <div class="commentary-container mt-3">
                     {% for commentary in task.commentaries.all %}
                         <div class="commentary-item">
-                            <p class="mb-1">User: {{ commentary.user.username }}</p>
-                            <h3 class="mb-1">Text: {{ commentary.text }}</h3>
-                            <p class="mb-1">Created at: {{ commentary.created_at }}</p>
+                            <p class="mb-1">Пользователь: {{ commentary.user.username }}</p>
+                            <h3 class="mb-1">Текст: {{ commentary.text }}</h3>
+                            <p class="mb-1">Добавлен: {{ commentary.created_at }}</p>
                             {% if perms.todos.change_commentary %}
-                                <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm mb-1">Edit</a>
+                                <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm mb-1">Редактировать</a>
                             {% endif %}
                             {% if perms.todos.delete_commentary %}
-                                <a href="{% url 'commentary_delete' commentary.id %}" class="btn btn-danger btn-sm mb-1">Delete</a>
+                                <a href="{% url 'commentary_delete' commentary.id %}" class="btn btn-danger btn-sm mb-1">Удалить</a>
                             {% endif %}
                         </div>
                     {% endfor %}
@@ -70,14 +71,14 @@
         <ul class="pagination justify-content-end">
             {% if page_obj.has_previous %}
                 <li class="page-item">
-                    <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">First</a>
+                    <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true">Первая</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Previous</a>
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" aria-disabled="true">Пред.</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Пред.</a>
                 </li>
             {% endif %}
             {% for page_number in page_obj.paginator.page_range %}
@@ -87,14 +88,14 @@
             {% endfor %}
             {% if page_obj.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">След.</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Посл.</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
-                    <a class="page-link" href="#">Next</a>
+                    <a class="page-link" href="#">След.</a>
                 </li>
             {% endif %}
         </ul>

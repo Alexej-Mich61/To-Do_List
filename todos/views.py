@@ -38,6 +38,9 @@ def register(request):
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
+
+
+
 @login_required
 @permission_required('todos.change_customuser', raise_exception=True)
 def approve_user(request, user_id):

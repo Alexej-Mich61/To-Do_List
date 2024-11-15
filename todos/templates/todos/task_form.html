@@ -1,40 +1,41 @@
+<!--todos/templates/todos/task_form.html-->
 {% extends 'todos/base.html' %}
 
-{% block title %}{% if form.instance.pk %}Edit Task{% else %}Create Task{% endif %}{% endblock %}
+{% block title %}{% if form.instance.pk %}Редактировать задачу{% else %}Create Task{% endif %}{% endblock %}
 
 {% block content %}
-    <h1>{% if form.instance.pk %}Edit Task{% else %}Create Task{% endif %}</h1>
+    <h1>{% if form.instance.pk %}Редактировать задачу{% else %}Добавить задачу{% endif %}</h1>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="id_title">Title</label>
+            <label for="id_title">Заголовок</label>
             {{ form.title }}
         </div>
         <div class="form-group">
-            <label for="id_description">Description</label>
+            <label for="id_description">Описание</label>
             {{ form.description }}
         </div>
         <div class="form-group">
-            <label for="id_assigned_to">Assigned To</label>
+            <label for="id_assigned_to">Кому</label>
             {{ form.assigned_to }}
         </div>
         <div class="form-group">
-            <label for="id_building">Building</label>
+            <label for="id_building">Объект</label>
             {{ form.building }}
         </div>
         <div class="form-group mt-3">
-            <label for="id_status">Status</label>
+            <label for="id_status">Статус</label>
             {{ form.status }}
         </div>
         <div id="building-section">
             {% if form.instance.building %}
                 <p>Building: {{ form.instance.building.ak }}. {{ form.instance.building.building_name }} ({{ form.instance.building.address }})</p>
-                <button type="button" id="remove-building" class="btn btn-danger btn-sm">Remove Building</button>
+                <button type="button" id="remove-building" class="btn btn-danger btn-sm">Убрать объект</button>
             {% endif %}
-            <a href="{% url 'building_search' %}" id="add-building-link" class="btn btn-primary btn-sm">Add Building to Task</a>
+            <a href="{% url 'building_search' %}" id="add-building-link" class="btn btn-primary btn-sm">Добавить объект к задаче</a>
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">Отменить</a>
     </form>
 
     <script>

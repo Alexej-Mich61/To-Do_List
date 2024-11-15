@@ -1,3 +1,4 @@
+<!--todos/templates/todos/base.html-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,36 +20,36 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'task_list' %}">Task List</a>
+                    <a class="nav-link" href="{% url 'task_list' %}">Все задачи</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'task_list_active' %}">Active Tasks</a>
+                    <a class="nav-link" href="{% url 'task_list_active' %}">Активные задачи</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'task_list_completed' %}">Completed Tasks</a>
+                    <a class="nav-link" href="{% url 'task_list_completed' %}">Выполненные задачи</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'building_list' %}">Building List</a>
+                    <a class="nav-link" href="{% url 'building_list' %}">Объекты</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'users_list' %}">Users List</a>
+                    <a class="nav-link" href="{% url 'users_list' %}">Пользователи</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About</a>
+                    <a class="nav-link" href="{% url 'about' %}">О нас</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'personal_account' %}">Personal Account</a>
+                    <a class="nav-link" href="{% url 'personal_account' %}">Личный кабинет</a>
                 </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}?next={% url 'login' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'logout' %}?next={% url 'login' %}">Выход</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        <a class="nav-link" href="{% url 'login' %}">Авторизация</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
                     </li>
                 {% endif %}
             </ul>

@@ -1,24 +1,25 @@
+<!--todos/templates/todos/users_list.html-->
 {% extends 'todos/base.html' %}
 
-{% block title %}Users List{% endblock %}
+{% block title %}Пользователи{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <h1 class="text-center">Users List</h1>
+                <h1 class="text-center">Пользователи</h1>
                 <h3 class="text-center">Пользователей: {{ users_count }}</h3>
                 <ul class="list-group">
                     {% for user in users %}
                         <li class="list-group-item">
-                            <h3>Username: {{ user.username }}</h3>
+                            <h3>Имя пользователя: {{ user.username }}</h3>
                             <h3>Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></h3>
-                            <h3>First Name: {{ user.first_name }}</h3>
-                            <h3>Last Name: {{ user.last_name }}</h3>
+                            <h3>Имя: {{ user.first_name }}</h3>
+                            <h3>Фамилия: {{ user.last_name }}</h3>
                             {% if not user.is_approved %}
-                                <a href="{% url 'approve_user' user.id %}" class="btn btn-success">Approve</a>
+                                <a href="{% url 'approve_user' user.id %}" class="btn btn-success">Подтвердить</a>
                             {% else %}
-                                <span class="badge badge-success">Approved</span>
+                                <span class="badge badge-success">Подтвержденный</span>
                             {% endif %}
                         </li>
                     {% endfor %}

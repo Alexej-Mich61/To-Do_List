@@ -1,16 +1,17 @@
+<!--todos/templates/todos/commentary_form.html-->
 {% extends 'todos/base.html' %}
 
-{% block title %}{% if commentary %}Edit Commentary{% else %}Add Commentary{% endif %}{% endblock %}
+{% block title %}{% if commentary %}Редактировать комментарий{% else %}Add Commentary{% endif %}{% endblock %}
 
 {% block content %}
-    <h1>{% if commentary %}Edit Commentary{% else %}Add Commentary{% endif %}</h1>
+    <h1>{% if commentary %}Редактировать комментарий{% else %}Add Commentary{% endif %}</h1>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="id_text">Text</label>
+            <label for="id_text">Текст</label>
             {{ form.text }}
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+        <a href="{% url 'task_list' %}" class="btn btn-secondary">Отменить</a>
     </form>
 {% endblock %}
