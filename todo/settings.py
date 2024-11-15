@@ -1,5 +1,4 @@
 # settings.py
-
 import os
 from pathlib import Path
 
@@ -52,6 +51,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'todo.settings.site_context',  # Добавьте ваш контекстный процессор
             ],
         },
     },
@@ -119,11 +119,28 @@ LOGIN_REDIRECT_URL = 'task_list'
 LOGOUT_REDIRECT_URL = 'login'
 
 # Email settings (example for Gmail)
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-specific-password'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "ugsigna@mail.ru"
+EMAIL_HOST_PASSWORD = "VpXVPzAZVHNZcMKCUTRt"
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
+EMAIL_USE_SSL = False
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# Additional settings can be added here
+
+# Site context processor
+def site_context(request):
+    from django.contrib.sites.shortcuts import get_current_site
+    current_site = get_current_site(request)
+    return {
+        'site_name': current_site.name,
+        'domain': current_site.domain,
+        'protocol': 'https' if request.is_secure() else 'http',
+    }

@@ -3,6 +3,7 @@
 
 from django.urls import path
 from . import views
+from .views import CustomPasswordResetView, CustomPasswordResetDoneView, CustomPasswordResetConfirmView, CustomPasswordResetCompleteView
 
 urlpatterns = [
     path('', views.task_list, name='task_list'),
@@ -24,5 +25,9 @@ urlpatterns = [
     path('task_list_active/', views.task_list_active, name='task_list_active'),
     path('task_list_completed/', views.task_list_completed, name='task_list_completed'),
     path('approve_user/<int:user_id>/', views.approve_user, name='approve_user'),
+    path('password_reset/', CustomPasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', CustomPasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', CustomPasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
 
