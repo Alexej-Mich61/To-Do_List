@@ -4,38 +4,40 @@
 {% block title %}Выполненные задачи{% endblock %}
 
 {% block content %}
-    <h1>Completed Task List</h1>
+    <h1>Выполненные задачи</h1>
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <p class="mb-0">Привет, {{ request.user }}! Задач: {{ page_obj.paginator.count }} Пользователей: {{ users_count }}</p>
+        <p class="mb-0">Привет, {{ request.user }}! Задач: {{ page_obj.paginator.count }} Пользователей: <a href="{% url 'users_list' %}">{{ users_count }}</a></p>
     </div>
 
     <!-- Поиск по заголовкам задач и пользователю -->
     <form method="get" class="form-inline justify-content-center mb-3">
         <div class="form-group mx-sm-3 mb-2">
-            <label for="search" class="sr-only">Найти задачу</label>
+            <label for="search" class="sr-only">Поиск задачи</label>
             <input type="text" class="form-control" id="search" name="search" placeholder="Найти задачу">
         </div>
         <div class="form-group mx-sm-3 mb-2">
             <label for="assigned_to" class="sr-only">Кому назначена</label>
             <input type="text" class="form-control" id="assigned_to" name="assigned_to" placeholder="Кому назначена">
         </div>
-        <button type="submit" class="btn btn-primary mb-2">Поиск</button>
+        <button type="submit" class="btn btn-primary mb-2">
+            <i class="bi bi-search"></i>
+        </button>
     </form>
 
     <!-- Кнопка создания новой задачи
     {% if perms.todos.add_task %}
         <div class="text-center mb-3">
-            <a href="{% url 'task_create' %}" class="btn btn-primary">Create New Task</a>
+            <a href="{% url 'task_create' %}" class="btn btn-primary">Добавить задачу</a>
         </div>
     {% endif %}-->
 
     <ul class="list-group">
         {% for task in page_obj %}
             <li class="list-group-item task-container">
-                <h2 class="mb-1">Заголовок: {{ task.title }}</h2>
+                <h2 class="mb-1"><i class="bi bi-card-heading"></i> {{ task.title }}</h2>
                 <p class="mb-1">Описание: {{ task.description }}</p>
                 {% if task.building %}
-                    <h2 class="mb-1">Объект: {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
+                    <h2 class="mb-1"><i class="bi bi-building"></i> {{ task.building.ak }}. {{ task.building.building_name }} ({{ task.building.address }})</h2>
                 {% endif %}
                 <h2 class="mb-1">Кому: {{ task.assigned_to.username }}</h2>
                 <p class="mb-1">Добавлена: {{ task.created_at }}</p>
@@ -51,7 +53,7 @@
                     {% for commentary in task.commentaries.all %}
                         <div class="commentary-item">
                             <p class="mb-1">Пользователь: {{ commentary.user.username }}</p>
-                            <h3 class="mb-1">Текст: {{ commentary.text }}</h3>
+                            <h3 class="mb-1"><i class="bi bi-chat-left-text"></i> {{ commentary.text }}</h3>
                             <p class="mb-1">Добавлен: {{ commentary.created_at }}</p>
                             {% if perms.todos.change_commentary %}
                                 <a href="{% url 'commentary_update' commentary.id %}" class="btn btn-warning btn-sm mb-1">Редактировать</a>

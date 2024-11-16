@@ -1,6 +1,7 @@
 # todos/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.views import LogoutView # для логаута
 from django.contrib.auth import login, authenticate
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -9,6 +10,10 @@ from .forms import TaskForm, BuildingForm, BuildingSearchForm, CommentaryForm, C
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.urls import reverse_lazy
 from .forms import CustomPasswordResetForm, CustomSetPasswordForm
+
+
+class CustomLogoutView(LogoutView):
+    next_page = 'login'  # имя URL-адреса для перенаправления после выхода
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'registration/password_reset_form.html'
@@ -120,6 +125,7 @@ def task_list_completed(request):
 
     return render(request, 'todos/task_list_completed.html', {'page_obj': page_obj, 'users_count': users_count})
 
+
 @login_required
 @permission_required('todos.add_task', raise_exception=True)
 def task_create(request):
@@ -156,15 +162,20 @@ def task_delete(request, pk):
 
 @login_required
 def building_list(request):
+    ak_search = request.GET.get('ak_search')
+    name_search = request.GET.get('name_search')
     buildings = Building.objects.all()
 
-    # Пагинация
+    if ak_search:
+        buildings = buildings.filter(ak__icontains=ak_search) # поиск
+    if name_search:
+        buildings = buildings.filter(building_name__icontains=name_search)
+
     paginator = Paginator(buildings, 5)  # Показывать по 5 зданий на страницу
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'todos/building_list.html', {'page_obj': page_obj})
-
 @login_required
 @permission_required('todos.add_building', raise_exception=True)
 def building_create(request):
@@ -212,7 +223,7 @@ def building_search(request):
     form = BuildingSearchForm(request.GET)
     buildings = Building.objects.all()
     if form.is_valid():
-        search = form.cleaned_data.get('search')
+        search = form.cleaned_data.get('search') # поиск
         buildings = buildings.filter(
             Q(ak__icontains=search) |
             Q(building_name__icontains=search) |

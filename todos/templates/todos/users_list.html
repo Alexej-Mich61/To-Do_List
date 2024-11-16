@@ -6,13 +6,18 @@
 {% block content %}
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h1 class="text-center">Пользователи</h1>
-                <h3 class="text-center">Пользователей: {{ users_count }}</h3>
+            <div class="col-md-8 text-center">
+                <h1>Пользователи</h1>
+                <h3>Пользователей: {{ users_count }}</h3>
                 <ul class="list-group">
                     {% for user in users %}
                         <li class="list-group-item">
                             <h3>Имя пользователя: {{ user.username }}</h3>
+                            <h3>Группа:
+                                {% for group in user.groups.all %}
+                                    {{ group.name }}
+                                {% endfor %}
+                            </h3>
                             <h3>Email: <a href="mailto:{{ user.email }}">{{ user.email }}</a></h3>
                             <h3>Имя: {{ user.first_name }}</h3>
                             <h3>Фамилия: {{ user.last_name }}</h3>

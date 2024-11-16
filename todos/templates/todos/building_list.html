@@ -4,15 +4,35 @@
 {% block title %}Все объекты{% endblock %}
 
 {% block content %}
-    <h1>Building List</h1>
+    <h1>Все объекты</h1>
     <p>Buildings: {{ page_obj.paginator.count }}</p>
+
+    <!-- Поиск по полям AK и названию -->
+    <form method="get" class="form-inline justify-content-center mb-3">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="ak_search" class="sr-only">Поиск по AK</label>
+            <input type="text" class="form-control" id="ak_search" name="ak_search" placeholder="Поиск по AK">
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="name_search" class="sr-only">Поиск по названию</label>
+            <input type="text" class="form-control" id="name_search" name="name_search" placeholder="Поиск по названию">
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+
+    <!-- Кнопка создания нового объекта -->
     {% if perms.todos.add_building %}
-        <a href="{% url 'building_create' %}" class="btn btn-primary mb-3">Добавить объект</a>
+        <div class="text-center mb-3">
+            <a href="{% url 'building_create' %}" class="btn btn-primary">Добавить объект</a>
+        </div>
     {% endif %}
+
     <ul class="list-group">
         {% for building in page_obj %}
             <li class="list-group-item">
-                <h2>{{ building.ak }}. {{ building.building_name }}</h2>
+                <h2><i class="bi bi-building"></i> {{ building.ak }}. {{ building.building_name }}</h2>
                 <p>Address: {{ building.address }}</p>
                 {% if perms.todos.change_building %}
                     <a href="{% url 'building_update' building.id %}" class="btn btn-warning btn-sm">Редактировать</a>
