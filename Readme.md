@@ -1,5 +1,5 @@
 # Учебный проект To-Do_List (дипломная работа, группа Python-316)
-- склонировать репозиторий командой `git clone` (https://github.com/Alexej-Mich61/To-Do_List)
+- склонировать репозиторий командой `git clone` 
 - установка джанго `pip install django==4.2`
 - установка `pip install django-debug-toolbar`
 - установка `pip install python-dotenv`
