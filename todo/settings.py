@@ -24,6 +24,11 @@ ALLOWED_HOSTS = [
     'alexej-mich61-to-do-list-622d.twc1.net',  # Добавьте ваш домен сюда
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://alexej-mich61-to-do-list-622d.twc1.net',  # Добавьте ваш домен сюда
+]
+
+
 # Application definition
 
 INSTALLED_APPS = [
