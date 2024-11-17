@@ -25,7 +25,8 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    'alexej-mich61-to-do-list-622d.twc1.net',  # Добавьте ваш домен сюда
+    'https://alexej-mich61-to-do-list-622d.twc1.net',
+    'http://alexej-mich61-to-do-list-622d.twc1.net', # Добавьте ваш домен сюда
 ]
 
 
