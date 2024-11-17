@@ -1,5 +1,4 @@
-<!--todos/templates/registration/register.html-->
-
+<!-- todos/templates/registration/register.html -->
 {% extends 'todos/base.html' %}
 
 {% block title %}Регистрация{% endblock %}
@@ -14,6 +13,10 @@
                     <div class="form-group">
                         <label for="id_username">Имя пользователя</label>
                         {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        <label for="id_email">Email</label>
+                        {{ form.email }}
                     </div>
                     <div class="form-group">
                         <label for="id_password1">Пароль</label>

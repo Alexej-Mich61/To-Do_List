@@ -4,6 +4,7 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     is_approved = models.BooleanField(default=False) # по дефолту не одобренный администратором
+    email = models.EmailField(unique=True, blank=False, null=False)  # Обязательное поле email
 
 class Building(models.Model): # объекты/здания
     ak = models.CharField(max_length=100)

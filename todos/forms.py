@@ -7,6 +7,9 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'password1', 'password2')
+    def __init__(self, *args, **kwargs):
+        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].required = True  # Сделать поле email обязательным
 
 class TaskForm(forms.ModelForm):
     class Meta:
